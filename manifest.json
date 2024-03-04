@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Yellow Box Extension",
+  "name": "Carbon Cart",
   "version": "1.0",
-  "description": "Injects a big yellow box into the top left corner of every webpage.",
+  "description": "This extension will add a carbon offset to your cart when you shop online. It will also show you the carbon footprint of your purchase and the impact of your offset.",
   "permissions": ["activeTab"],
   "content_scripts": [
     {

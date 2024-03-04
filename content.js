@@ -76,33 +76,45 @@
   const pageUrl = window.location.href;
 
   try {
+    // Assuming 'pageUrl' is a variable that contains the URL you want to scrape
+    const pageUrl = 'https://example.com'; // replace with your actual page URL
+    const url = new URL('http://127.0.0.1:8000/scrape');
+
+    // Append your parameters to the URL
+    url.search = new URLSearchParams({
+        url: pageUrl
+    }).toString();
+
     // Send a request to your local server to initiate scraping
-    const response = await fetch('http://localhost:8000/scrape', {
+    const response = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ url: pageUrl })
+      }
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     // Process the server response (if necessary)
     const responseData = await response.json();
     console.log('Server response:', responseData);
 
+    const data = responseData.content;
+    console.log(data)
+
+    dataJSON = JSON.parse(data)
     // Display the carbon data message in the floating box
-    const carbonDataMessage = `You got ${responseData.carbon} kg of carbon.`; // Adjust the responseData property as needed
+    const carbonDataMessage = dataJSON.total_emissions; // Adjust the responseData property as needed
     content.textContent = carbonDataMessage; // 'content' is your content div inside the floating box
 
-    } catch (error) {
+  } catch (error) {
       console.error('Error sending request to local server:', error);
       // Handle errors here by updating the content div or showing an error message
       content.textContent = "An error occurred while processing your request.";
-    }
-  });
+  }
+});
 
 
-})();
+})(); // Add a comma here
